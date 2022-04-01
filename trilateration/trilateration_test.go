@@ -1,8 +1,14 @@
-package triangulation
+package trilateration
 
 import (
 	"testing"
 )
+
+func TestSatellites(t *testing.T) {
+	if sattellites[0].name != "Kenobi" {
+		t.Error("Name kenobi is not present")
+	}
+}
 
 func TestGetLocation(t *testing.T) {
 

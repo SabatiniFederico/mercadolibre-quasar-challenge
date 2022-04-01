@@ -1,4 +1,8 @@
-package triangulation
+package trilateration
+
+import (
+	"math"
+)
 
 type position struct {
 	X int32
@@ -26,7 +30,16 @@ var sattellites = []satellite{
 }
 
 func GetLocation(distances ...float32) (x, y float32) {
-	return 20.0, 20.0
+	//var coordinateX float32
+	//var coordinateY float32
+
+	var squaredDistances []float32
+
+	for _, distance := range distances {
+		squaredDistances = append(squaredDistances, float32(math.Pow(float64(distance), 2)))
+	}
+
+	return 20, 20
 }
 
 func GetMessage(messages ...[]string) (msg string) {
