@@ -2,12 +2,10 @@ package service
 
 import (
 	"testing"
-
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/model"
 )
 
 func TestSatellites(t *testing.T) {
-	if model.Sattellites[0].Name != "Kenobi" {
+	if sattellites[0].Name != "Kenobi" {
 		t.Error("Name kenobi is not present")
 	}
 }
