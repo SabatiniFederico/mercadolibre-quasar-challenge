@@ -1,7 +1,6 @@
 package trilateration
 
 import (
-	"fmt"
 	"math"
 	"testing"
 
@@ -20,7 +19,7 @@ func TestPreciseTrilateration(t *testing.T) {
 	if error != nil {
 		t.Errorf("There was no solution for expected position (%f, %f)", actualPosition.X, actualPosition.Y)
 	}
-	fmt.Printf("(%f %f)", actualPosition.X, actualPosition.Y)
+
 	if actualPosition != expectedPosition {
 		t.Errorf("The position expected was (%f, %f), but received (%f, %f)", actualPosition.X, actualPosition.Y, expectedPosition.X, expectedPosition.Y)
 	}
