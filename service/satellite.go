@@ -5,22 +5,22 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/model"
+	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/trilateration"
 )
 
-var sats = []model.Satellite{
+var sats = []entity.Satellite{
 	{
 		Name: "Kenobi",
-		Pos:  model.Point{X: -500, Y: -200},
+		Pos:  entity.Point{X: -500, Y: -200},
 	},
 	{
 		Name: "Skywalker",
-		Pos:  model.Point{X: 100, Y: -100},
+		Pos:  entity.Point{X: 100, Y: -100},
 	},
 	{
 		Name: "Sato",
-		Pos:  model.Point{X: 500, Y: 100},
+		Pos:  entity.Point{X: 500, Y: 100},
 	},
 }
 
@@ -36,9 +36,6 @@ func GetLocation(distances ...float32) (x, y float32) {
 	return float32(solution.X), float32(solution.Y)
 }
 
-//["este", 	"es",  	"un",	 ""]
-//["", 		"",		"un",	"mensaje"]
-//["",		"es,	"",		""]
 func GetMessage(messages ...[]string) (msg string) {
 
 	len := len(messages[0])

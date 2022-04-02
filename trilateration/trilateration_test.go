@@ -4,17 +4,17 @@ import (
 	"math"
 	"testing"
 
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/model"
+	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 )
 
 func TestPreciseTrilateration(t *testing.T) {
-	pos1 := model.Point{X: 0, Y: 0}
-	pos2 := model.Point{X: 100, Y: 0}
-	pos3 := model.Point{X: 50, Y: 30}
+	pos1 := entity.Point{X: 0, Y: 0}
+	pos2 := entity.Point{X: 100, Y: 0}
+	pos3 := entity.Point{X: 50, Y: 30}
 	dists := []float64{50, 50, 30}
 
 	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
-	expectedPosition := model.Point{X: 50.0, Y: 0.0}
+	expectedPosition := entity.Point{X: 50.0, Y: 0.0}
 
 	if error != nil {
 		t.Errorf("There was no solution for expected position (%f, %f)", actualPosition.X, actualPosition.Y)
@@ -26,13 +26,13 @@ func TestPreciseTrilateration(t *testing.T) {
 }
 
 func TestNonPreciseTrilateration(t *testing.T) {
-	pos1 := model.Point{X: 0, Y: 0}
-	pos2 := model.Point{X: 100, Y: 0}
-	pos3 := model.Point{X: 50, Y: 30}
+	pos1 := entity.Point{X: 0, Y: 0}
+	pos2 := entity.Point{X: 100, Y: 0}
+	pos3 := entity.Point{X: 50, Y: 30}
 	dists := []float64{100, 100, 56.6025}
 
 	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
-	expectedPosition := model.Point{X: 50.0, Y: 86.6025}
+	expectedPosition := entity.Point{X: 50.0, Y: 86.6025}
 
 	if error != nil {
 		t.Errorf("There was no solution for expected position (%f, %f)", actualPosition.X, actualPosition.Y)
@@ -44,9 +44,9 @@ func TestNonPreciseTrilateration(t *testing.T) {
 }
 
 func TestNoSolutionForTrilateration(t *testing.T) {
-	pos1 := model.Point{X: 0, Y: 0}
-	pos2 := model.Point{X: 100, Y: 0}
-	pos3 := model.Point{X: 50, Y: 30}
+	pos1 := entity.Point{X: 0, Y: 0}
+	pos2 := entity.Point{X: 100, Y: 0}
+	pos3 := entity.Point{X: 50, Y: 30}
 	dists := []float64{10, 10, 10}
 
 	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
@@ -56,7 +56,7 @@ func TestNoSolutionForTrilateration(t *testing.T) {
 	}
 }
 
-func isNonAccuratePosition(actualPoint model.Point, expectedPoint model.Point) bool {
+func isNonAccuratePosition(actualPoint entity.Point, expectedPoint entity.Point) bool {
 	if math.Abs(actualPoint.X-expectedPoint.X) > marginOfError {
 		return true
 	}
