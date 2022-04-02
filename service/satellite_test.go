@@ -5,23 +5,8 @@ import (
 )
 
 func TestSatellites(t *testing.T) {
-	if sattellites[0].Name != "Kenobi" {
+	if sats[0].Name != "Kenobi" {
 		t.Error("Name kenobi is not present")
-	}
-}
-
-func TestGetLocation(t *testing.T) {
-
-	actualX, actualY := GetLocation(40, 20, 30)
-	var expectedX, expectedY float32 = 20, 20
-
-	if expectedX != actualX {
-		t.Errorf("Expected Position X (%f) is not same as"+
-			" actual string (%f)", expectedX, actualX)
-	}
-	if expectedY != actualY {
-		t.Errorf("Expected Position Y (%f) is not same as"+
-			" actual string (%f)", expectedY, actualY)
 	}
 }
 
