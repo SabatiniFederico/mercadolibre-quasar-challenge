@@ -10,15 +10,16 @@ func TestSatellites(t *testing.T) {
 	}
 }
 
-func TestGetMessage(t *testing.T) {
+func TestGetMessageWithNoPhaseShift(t *testing.T) {
 
-	words := []string{"", "abc", "hola"}
+	message1 := []string{"este", "es", "un", ""}
+	message2 := []string{"", "", "un", "mensaje"}
+	message3 := []string{"", "es", "", ""}
 
-	actualString := GetMessage(words)
-	expectedString := "some message"
+	actualString := GetMessage(message1, message2, message3)
+	expectedString := "este es un mensaje"
 
 	if actualString != expectedString {
-		t.Errorf("Expected String(%s) is not same as"+
-			" actual string (%s)", expectedString, actualString)
+		t.Errorf("actual string is: %s but expected message was: %s", actualString, expectedString)
 	}
 }

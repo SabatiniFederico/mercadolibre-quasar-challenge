@@ -1,7 +1,9 @@
 package service
 
 import (
+	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/model"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/trilateration"
@@ -34,6 +36,33 @@ func GetLocation(distances ...float32) (x, y float32) {
 	return float32(solution.X), float32(solution.Y)
 }
 
+//["este", 	"es",  	"un",	 ""]
+//["", 		"",		"un",	"mensaje"]
+//["",		"es,	"",		""]
 func GetMessage(messages ...[]string) (msg string) {
-	return "some message"
+
+	len := len(messages[0])
+	solution := []string{}
+
+	for i := 0; i < len; i++ {
+		word, err := mergeTwoWords(messages[0][i], messages[1][i])
+		word, err2 := mergeTwoWords(word, messages[2][i])
+
+		if err != nil || err2 != nil {
+			return "contradiction found on message, Fail!"
+		}
+
+		solution = append(solution, word)
+	}
+
+	return strings.Join(solution, " ")
+}
+func mergeTwoWords(word1, word2 string) (string, error) {
+	if word1 != "" {
+		if word1 != word2 && word2 != "" {
+			return word1, errors.New("contradiction found")
+		}
+		return word1, nil
+	}
+	return word2, nil
 }
