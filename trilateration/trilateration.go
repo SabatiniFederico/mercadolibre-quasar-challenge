@@ -13,20 +13,31 @@ const marginOfError = 0.0001
 
 func Solve2DTrilateration(p1 model.Point, p2 model.Point, p3 model.Point, distances []float64) (model.Point, error) {
 
-	coordinateX := (math.Pow(distances[0], 2) - math.Pow(distances[1], 2) + math.Pow(p2.X, 2)) / (2 * p2.X)
+	//translating point1 to origin
+	points := translatePoints(model.Point{X: -p1.X, Y: -p1.Y}, p1, p2, p3)
+
+	//rotating point2 to X axis.
+	rotation := math.Acos(p2.X / math.Sqrt(math.Pow(p2.X, 2)+math.Pow(p2.Y, 2)))
+	rotatedPoints := rotatePoints(rotation, points...)
+
+	coordinateX := (math.Pow(distances[0], 2) - math.Pow(distances[1], 2) + math.Pow(rotatedPoints[1].X, 2)) / (2 * rotatedPoints[1].X)
 	coordinateY := math.Sqrt(math.Pow(distances[0], 2) - math.Pow(coordinateX, 2))
 
 	//i have to check two possible solutions for Y
-	if isAccurateDistance(distances[2], math.Pow(p3.X-coordinateX, 2)+math.Pow(p3.Y-coordinateY, 2)) {
-		return model.Point{X: coordinateX, Y: coordinateY}, nil
+	if isAccurateDistance(distances[2], normalize(rotatedPoints[2].X-coordinateX, rotatedPoints[2].Y-coordinateY)) {
+		return translatePoint(p1, rotatePoint(-rotation, model.Point{X: coordinateX, Y: coordinateY})), nil
 	}
-	if isAccurateDistance(distances[2], math.Pow(p3.X-coordinateX, 2)+math.Pow(p3.Y+coordinateY, 2)) {
-		return model.Point{X: coordinateX, Y: -coordinateY}, nil
+	if isAccurateDistance(distances[2], normalize(rotatedPoints[2].X-coordinateX, rotatedPoints[2].Y+coordinateY)) {
+		return translatePoint(p1, rotatePoint(-rotation, model.Point{X: coordinateX, Y: coordinateY})), nil
 	}
 
 	return model.Point{}, ErrNoSolution
 }
 
+func normalize(x float64, y float64) float64 {
+	return math.Sqrt(math.Pow(x, 2) + math.Pow(y, 2))
+}
+
 func isAccurateDistance(expectedDistance float64, actualDistance float64) bool {
-	return math.Abs(expectedDistance-actualDistance) >= marginOfError
+	return math.Abs(expectedDistance-actualDistance) <= marginOfError
 }
