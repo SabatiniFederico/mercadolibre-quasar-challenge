@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/trilateration"
+	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/lib/trilateration"
 )
 
 var sats = []entity.Satellite{
@@ -27,6 +27,7 @@ func GetLocation(distances ...float32) (x, y float32, err error) {
 	distanceSato := float64(distances[2])
 
 	preciseDistances := []float64{distanceKenobi, distanceSkywalker, distanceSato}
+
 	solution, err := trilateration.Solve2DTrilateration(sats[0].Pos, sats[1].Pos, sats[2].Pos, preciseDistances)
 
 	return float32(solution.X), float32(solution.Y), err

@@ -7,11 +7,12 @@ import (
 
 func GetMessage(messages ...[]string) (msg string, err error) {
 
-	len := len(messages[0])
+	shiftedMessages := removeNoiseOfMessages(messages...)
+
 	solution := []string{}
 
-	for i := 0; i < len; i++ {
-		word, err := mergeTwoWords(messages[0][i], messages[1][i])
+	for i, word := range shiftedMessages[0] {
+		word, err := mergeTwoWords(word, messages[1][i])
 
 		if err != nil {
 			return "", err
@@ -28,6 +29,26 @@ func GetMessage(messages ...[]string) (msg string, err error) {
 
 	return strings.Join(solution, " "), nil
 }
+
+func removeNoiseOfMessages(messages ...[]string) [][]string {
+	minLen := minLength(messages...)
+
+	for i, message := range messages {
+		messages[i] = message[len(message)-minLen:]
+	}
+	return messages
+}
+
+func minLength(messages ...[]string) (min int) {
+	min = len(messages[0])
+	for _, message := range messages {
+		if min > len(message) {
+			min = len(message)
+		}
+	}
+	return min
+}
+
 func mergeTwoWords(word1, word2 string) (string, error) {
 	if word1 != "" {
 		if word1 != word2 && word2 != "" {

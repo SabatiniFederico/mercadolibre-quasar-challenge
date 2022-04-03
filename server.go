@@ -12,8 +12,8 @@ func main() {
 	server.Use(gin.Recovery())
 
 	server.POST("/topsecret/", controller.TopSecretMessage)
-	server.POST("/topsecret_split/:satellite_name", controller.SplittedTopSecretMessage)
-	server.GET("/topsecret_split/", nil)
+	server.POST("/topsecret_split/:name", controller.PostSplittedTopSecretMessage)
+	server.GET("/topsecret_split/", controller.GetSplittedTopSecretMessage)
 
 	server.Run(":8080")
 }
