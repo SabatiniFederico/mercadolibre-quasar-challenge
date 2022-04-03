@@ -1,11 +1,11 @@
 package entity
 
 type ClassifiedMessage struct {
-	Name     string   `json:"name"`
-	Distance float32  `json:"distance"`
-	Message  []string `json:"message"`
+	Name     string   `json:"name" validate:"required,eq=kenobi|eq=skywalker|eq=sato"`
+	Distance float32  `json:"distance" validate:"required"`
+	Message  []string `json:"message" validate:"required"`
 }
 
 type SatellitesRequest struct {
-	Satellites [3]ClassifiedMessage `json:"satellites"`
+	Satellites []ClassifiedMessage `json:"satellites"`
 }

@@ -9,13 +9,12 @@ import (
 )
 
 func TopSecretMessage(ctx *gin.Context) {
-	var info entity.SatellitesRequest
+	var request entity.SatellitesRequest
 
-	err := ctx.ShouldBindJSON(&info)
+	err := ctx.ShouldBindJSON(&request)
 	if err == nil {
-		satellites := info.Satellites
 
-		answer, err := service.GetStarshipClassifiedCode(satellites)
+		answer, err := service.GetStarshipClassifiedCode(request)
 
 		if err != nil {
 			ctx.JSON(404, gin.H{
