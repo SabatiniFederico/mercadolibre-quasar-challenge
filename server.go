@@ -6,10 +6,14 @@ import (
 )
 
 func main() {
-	server := gin.Default()
+	server := gin.New()
+
+	server.Use(gin.Logger())
+	server.Use(gin.Recovery())
 
 	server.POST("/topsecret/", controller.TopSecretMessage)
-	server.POST("/topsecret_split/:name", controller.TopSecretSplittedMessage)
+	server.POST("/topsecret_split/:satellite_name", controller.SplittedTopSecretMessage)
+	server.GET("/topsecret_split/", nil)
 
 	server.Run(":8080")
 }

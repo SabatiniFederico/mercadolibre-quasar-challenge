@@ -9,21 +9,19 @@ import (
 )
 
 func TopSecretMessage(ctx *gin.Context) {
-	var info entity.SatellitesInfo
+	var info entity.SatellitesRequest
 
 	err := ctx.ShouldBindJSON(&info)
 	if err == nil {
 		satellites := info.Satellites
 
-		x, y, errLocation := service.GetLocation(satellites[0].Distance, satellites[1].Distance, satellites[2].Distance)
-		message, errMessage := service.GetMessage(satellites[0].Message, satellites[1].Message, satellites[2].Message)
+		answer, err := service.GetStarshipClassifiedCode(satellites)
 
-		if errLocation != nil || errMessage != nil {
+		if err != nil {
 			ctx.JSON(404, gin.H{
 				"message": "impossible to determine classified message",
 			})
 		} else {
-			answer := entity.Solution{Position: entity.Point{X: float64(x), Y: float64(y)}, Message: message}
 			json.Marshal(answer)
 			ctx.JSON(200, answer)
 		}
@@ -35,7 +33,7 @@ func TopSecretMessage(ctx *gin.Context) {
 
 }
 
-func TopSecretSplittedMessage(ctx *gin.Context) {
+func SplittedTopSecretMessage(ctx *gin.Context) {
 	name := ctx.Param("name")
 
 	var classifiedMessage entity.ClassifiedMessage

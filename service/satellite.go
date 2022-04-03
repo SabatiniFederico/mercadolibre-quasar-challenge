@@ -2,64 +2,19 @@ package service
 
 import (
 	"errors"
-	"strings"
 
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/trilateration"
 )
 
-var sats = []entity.Satellite{
-	{
-		Name: "Kenobi",
-		Pos:  entity.Point{X: -500, Y: -200},
-	},
-	{
-		Name: "Skywalker",
-		Pos:  entity.Point{X: 100, Y: -100},
-	},
-	{
-		Name: "Sato",
-		Pos:  entity.Point{X: 500, Y: 100},
-	},
-}
+func GetStarshipClassifiedCode(satellites [3]entity.ClassifiedMessage) (answer entity.SolutionResponse, err error) {
 
-func GetLocation(distances ...float32) (x, y float32, err error) {
+	x, y, errLocation := GetLocation(satellites[0].Distance, satellites[1].Distance, satellites[2].Distance)
+	message, errMessage := GetMessage(satellites[0].Message, satellites[1].Message, satellites[2].Message)
 
-	preciseDistances := []float64{float64(distances[0]), float64(distances[1]), float64(distances[2])}
-	solution, err := trilateration.Solve2DTrilateration(sats[0].Pos, sats[1].Pos, sats[2].Pos, preciseDistances)
-
-	return float32(solution.X), float32(solution.Y), err
-}
-
-func GetMessage(messages ...[]string) (msg string, err error) {
-
-	len := len(messages[0])
-	solution := []string{}
-
-	for i := 0; i < len; i++ {
-		word, err := mergeTwoWords(messages[0][i], messages[1][i])
-
-		if err != nil {
-			return "", err
-		}
-
-		word, err2 := mergeTwoWords(word, messages[2][i])
-
-		if err2 != nil {
-			return "", err2
-		}
-
-		solution = append(solution, word)
+	if errLocation != nil || errMessage != nil {
+		return entity.SolutionResponse{}, errors.New("could not calculate position or message with provided info")
 	}
 
-	return strings.Join(solution, " "), nil
-}
-func mergeTwoWords(word1, word2 string) (string, error) {
-	if word1 != "" {
-		if word1 != word2 && word2 != "" {
-			return word1, errors.New("contradiction found")
-		}
-		return word1, nil
-	}
-	return word2, nil
+	answer = entity.SolutionResponse{Position: entity.Point{X: float64(x), Y: float64(y)}, Message: message}
+	return answer, nil
 }
