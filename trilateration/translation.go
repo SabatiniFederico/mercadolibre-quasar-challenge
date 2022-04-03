@@ -7,11 +7,11 @@ import (
 )
 
 func translatePoints(translation entity.Point, points ...entity.Point) []entity.Point {
-
-	for i, point := range points {
-		points[i] = translatePoint(translation, point)
+	var translatedPoints []entity.Point
+	for _, point := range points {
+		translatedPoints = append(translatedPoints, translatePoint(translation, point))
 	}
-	return points
+	return translatedPoints
 }
 
 func translatePoint(translation entity.Point, point entity.Point) entity.Point {
@@ -21,11 +21,11 @@ func translatePoint(translation entity.Point, point entity.Point) entity.Point {
 }
 
 func rotatePoints(rotation float64, points ...entity.Point) []entity.Point {
-
-	for i, point := range points {
-		points[i] = rotatePoint(rotation, point)
+	var rotatedPoints []entity.Point
+	for _, point := range points {
+		rotatedPoints = append(rotatedPoints, rotatePoint(rotation, point))
 	}
-	return points
+	return rotatedPoints
 }
 
 func rotatePoint(rotation float64, point entity.Point) entity.Point {

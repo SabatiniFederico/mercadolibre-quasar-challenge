@@ -31,7 +31,7 @@ func GetLocation(distances ...float32) (x, y float32) {
 
 	if err != nil {
 		//TODO replace with logger
-		fmt.Printf("no hay solucion")
+		fmt.Printf(" ")
 	}
 	return float32(solution.X), float32(solution.Y)
 }

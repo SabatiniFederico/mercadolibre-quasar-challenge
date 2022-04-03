@@ -1,6 +1,7 @@
 package trilateration
 
 import (
+	"fmt"
 	"math"
 	"testing"
 
@@ -22,6 +23,14 @@ func TestTranslatePoints(t *testing.T) {
 	}
 }
 
+func TestRotateOnePoint(t *testing.T) {
+	element := entity.Point{X: 600, Y: 100}
+
+	rotation := math.Acos(element.X / math.Sqrt(math.Pow(element.X, 2)+math.Pow(element.Y, 2)))
+	result := rotatePoint(-rotation, rotatePoint(rotation, element))
+	fmt.Printf("rotation: (%f, %f), expected (600,100)", result.X, result.Y)
+	//if(rotatePoint(-rotation, rotatePoint(rotation, element)))
+}
 func TestRotatePoints(t *testing.T) {
 
 	var tests = []struct {

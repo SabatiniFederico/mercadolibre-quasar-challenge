@@ -57,10 +57,10 @@ func TestNoSolutionForTrilateration(t *testing.T) {
 }
 
 func isNonAccuratePosition(actualPoint entity.Point, expectedPoint entity.Point) bool {
-	if math.Abs(actualPoint.X-expectedPoint.X) > marginOfError {
+	if math.Abs(actualPoint.X-expectedPoint.X) > 0.0001 {
 		return true
 	}
-	if math.Abs(actualPoint.Y-expectedPoint.Y) > marginOfError {
+	if math.Abs(actualPoint.Y-expectedPoint.Y) > 0.0001 {
 		return true
 	}
 	return false
