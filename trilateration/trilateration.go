@@ -9,7 +9,7 @@ import (
 
 var ErrNoSolution = errors.New("there is no posible solution")
 
-const marginOfError = 50
+const marginOfError = 5
 
 func Solve2DTrilateration(p1 entity.Point, p2 entity.Point, p3 entity.Point, distances []float64) (entity.Point, error) {
 
