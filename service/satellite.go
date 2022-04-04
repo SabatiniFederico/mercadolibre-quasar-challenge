@@ -6,9 +6,10 @@ import (
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 )
 
+var availableSatellitesNames = [...]string{"kenobi", "skywalker", "sato"}
 var storedSatellites []entity.Satellite
 
-func AddClassifiedCode(newClassifiedMessage entity.Satellite) {
+func AddSatelliteCode(newClassifiedMessage entity.Satellite) {
 	for i, satellite := range storedSatellites {
 		if satellite.Name == newClassifiedMessage.Name {
 			storedSatellites[i] = newClassifiedMessage
@@ -18,7 +19,7 @@ func AddClassifiedCode(newClassifiedMessage entity.Satellite) {
 	storedSatellites = append(storedSatellites, newClassifiedMessage)
 }
 
-func GetSplittedClassifiedCode() (entity.StarshipResponse, error) {
+func GetSplittedSatelliteCode() (entity.StarshipResponse, error) {
 	return CalculateStarshipClassifiedCode(storedSatellites)
 }
 
@@ -71,20 +72,17 @@ func hasRepeatedSatelliteNames(satellites []entity.Satellite) bool {
 	return false
 }
 
-//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
 func sortSatellites(satellites []entity.Satellite) (sortedSats []entity.Satellite) {
 
-	sortedSats = append(sortedSats, satellites[findIndexOf("kenobi", satellites)])
-	sortedSats = append(sortedSats, satellites[findIndexOf("skywalker", satellites)])
-	sortedSats = append(sortedSats, satellites[findIndexOf("sato", satellites)])
-	return sortedSats
-}
-
-func findIndexOf(name string, satellites []entity.Satellite) int {
-	for i, sat := range satellites {
-		if sat.Name == name {
-			return i
-		}
+	dicc := make(map[string]entity.Satellite)
+	for _, satellite := range satellites {
+		dicc[satellite.Name] = satellite
 	}
-	return -1
+
+	//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
+	for _, satName := range availableSatellitesNames {
+		sortedSats = append(sortedSats, dicc[satName])
+	}
+
+	return sortedSats
 }

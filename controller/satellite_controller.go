@@ -50,7 +50,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 			"message": "bad format",
 		})
 	} else {
-		service.AddClassifiedCode(classifiedMessage)
+		service.AddSatelliteCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
 		ctx.JSON(http.StatusCreated, classifiedMessage)
 	}
@@ -58,7 +58,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 
 func GetSplittedTopSecretMessage(ctx *gin.Context) {
 
-	answer, err := service.GetSplittedClassifiedCode()
+	answer, err := service.GetSplittedSatelliteCode()
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
 			"message": "impossible to determine classified message",
