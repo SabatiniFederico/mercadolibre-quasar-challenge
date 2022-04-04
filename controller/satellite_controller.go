@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"net/http"
 
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/service"
@@ -18,15 +19,15 @@ func PostTopSecretMessage(ctx *gin.Context) {
 		answer, err := service.CalculateStarshipClassifiedCode(request.Satellites)
 
 		if err != nil {
-			ctx.JSON(404, gin.H{
+			ctx.JSON(http.StatusNotFound, gin.H{
 				"message": "impossible to determine classified message",
 			})
 		} else {
 			json.Marshal(answer)
-			ctx.JSON(200, answer)
+			ctx.JSON(http.StatusOK, answer)
 		}
 	} else {
-		ctx.JSON(400, gin.H{
+		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad format",
 		})
 	}
@@ -43,13 +44,13 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 	var validate = validator.New()
 
 	if errs := validate.Struct(classifiedMessage); errs != nil {
-		ctx.JSON(400, gin.H{
+		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "bad format",
 		})
 	} else {
 		service.AddClassifiedCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
-		ctx.JSON(200, classifiedMessage)
+		ctx.JSON(http.StatusCreated, classifiedMessage)
 	}
 }
 
@@ -57,12 +58,12 @@ func GetSplittedTopSecretMessage(ctx *gin.Context) {
 
 	answer, err := service.GetSplittedClassifiedCode()
 	if err != nil {
-		ctx.JSON(404, gin.H{
+		ctx.JSON(http.StatusNotFound, gin.H{
 			"message": "impossible to determine classified message",
 		})
 	} else {
 		json.Marshal(answer)
-		ctx.JSON(200, answer)
+		ctx.JSON(http.StatusOK, answer)
 	}
 
 }
