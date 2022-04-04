@@ -14,17 +14,11 @@ func getPositions() map[string]trilateration.Point {
 	return positions
 }
 
-func GetLocation(distances ...float32) (x, y float32, err error) {
+func GetLocation(distances ...float64) (x, y float64, err error) {
 
 	pos := getPositions()
 
-	distanceKenobi := float64(distances[0])
-	distanceSkywalker := float64(distances[1])
-	distanceSato := float64(distances[2])
+	solution, err := trilateration.Solve2DTrilateration(pos["kenobi"], pos["skywalker"], pos["sato"], distances)
 
-	preciseDistances := []float64{distanceKenobi, distanceSkywalker, distanceSato}
-
-	solution, err := trilateration.Solve2DTrilateration(pos["kenobi"], pos["skywalker"], pos["sato"], preciseDistances)
-
-	return float32(solution.X), float32(solution.Y), err
+	return solution.X, solution.Y, err
 }

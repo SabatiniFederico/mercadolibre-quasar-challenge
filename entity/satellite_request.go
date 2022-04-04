@@ -2,7 +2,7 @@ package entity
 
 type ClassifiedMessage struct {
 	Name     string   `json:"name" validate:"required,eq=kenobi|eq=skywalker|eq=sato"`
-	Distance float32  `json:"distance" validate:"required"`
+	Distance float64  `json:"distance" validate:"required"`
 	Message  []string `json:"message" validate:"required"`
 }
 

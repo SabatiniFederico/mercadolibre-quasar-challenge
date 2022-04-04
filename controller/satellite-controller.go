@@ -9,7 +9,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-func TopSecretMessage(ctx *gin.Context) {
+func PostTopSecretMessage(ctx *gin.Context) {
 	var request entity.SatellitesRequest
 
 	err := ctx.ShouldBindJSON(&request)
@@ -47,7 +47,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 			"message": "bad format",
 		})
 	} else {
-		service.PostSplittedClassifiedCode(classifiedMessage)
+		service.AddClassifiedCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
 		ctx.JSON(200, classifiedMessage)
 	}

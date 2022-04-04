@@ -11,7 +11,7 @@ func main() {
 	server.Use(gin.Logger())
 	server.Use(gin.Recovery())
 
-	server.POST("/topsecret/", controller.TopSecretMessage)
+	server.POST("/topsecret/", controller.PostTopSecretMessage)
 	server.POST("/topsecret_split/:name", controller.PostSplittedTopSecretMessage)
 	server.GET("/topsecret_split/", controller.GetSplittedTopSecretMessage)
 

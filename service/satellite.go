@@ -28,7 +28,7 @@ func CalculateStarshipClassifiedCode(satellites []entity.ClassifiedMessage) (ans
 	return answer, nil
 }
 
-func PostSplittedClassifiedCode(newClassifiedMessage entity.ClassifiedMessage) {
+func AddClassifiedCode(newClassifiedMessage entity.ClassifiedMessage) {
 	for i, satellites := range splittedSatellites {
 		if satellites.Name == newClassifiedMessage.Name {
 			splittedSatellites[i] = newClassifiedMessage
@@ -42,7 +42,7 @@ func GetSplittedClassifiedCode() (entity.SolutionResponse, error) {
 	return CalculateStarshipClassifiedCode(splittedSatellites)
 }
 
-func getValuesFromSatellites(satellites []entity.ClassifiedMessage) (distances [3]float32, messages [3][]string, err error) {
+func getValuesFromSatellites(satellites []entity.ClassifiedMessage) (distances [3]float64, messages [3][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
 		fmt.Print("request information is invalid \n")
