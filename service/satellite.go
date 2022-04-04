@@ -7,9 +7,23 @@ import (
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 )
 
-var splittedSatellites []entity.ClassifiedMessage
+var storedSatellites []entity.Satellite
 
-func CalculateStarshipClassifiedCode(satellites []entity.ClassifiedMessage) (answer entity.SolutionResponse, err error) {
+func AddClassifiedCode(newClassifiedMessage entity.Satellite) {
+	for i, satellite := range storedSatellites {
+		if satellite.Name == newClassifiedMessage.Name {
+			storedSatellites[i] = newClassifiedMessage
+			return
+		}
+	}
+	storedSatellites = append(storedSatellites, newClassifiedMessage)
+}
+
+func GetSplittedClassifiedCode() (entity.StarshipResponse, error) {
+	return CalculateStarshipClassifiedCode(storedSatellites)
+}
+
+func CalculateStarshipClassifiedCode(satellites []entity.Satellite) (answer entity.StarshipResponse, err error) {
 
 	distances, criptedMessages, errRequest := getValuesFromSatellites(satellites)
 
@@ -18,31 +32,17 @@ func CalculateStarshipClassifiedCode(satellites []entity.ClassifiedMessage) (ans
 
 	if errLocation != nil || errMessage != nil || errRequest != nil {
 		fmt.Print("could not calculate position or message with provided info \n")
-		return entity.SolutionResponse{}, errors.New("could not calculate position or message with provided info")
+		return entity.StarshipResponse{}, errors.New("could not calculate position or message with provided info")
 	}
 
-	answer = entity.SolutionResponse{
+	answer = entity.StarshipResponse{
 		Position: entity.Position{X: float64(x), Y: float64(y)},
 		Message:  message,
 	}
 	return answer, nil
 }
 
-func AddClassifiedCode(newClassifiedMessage entity.ClassifiedMessage) {
-	for i, satellites := range splittedSatellites {
-		if satellites.Name == newClassifiedMessage.Name {
-			splittedSatellites[i] = newClassifiedMessage
-			return
-		}
-	}
-	splittedSatellites = append(splittedSatellites, newClassifiedMessage)
-}
-
-func GetSplittedClassifiedCode() (entity.SolutionResponse, error) {
-	return CalculateStarshipClassifiedCode(splittedSatellites)
-}
-
-func getValuesFromSatellites(satellites []entity.ClassifiedMessage) (distances [3]float64, messages [3][]string, err error) {
+func getValuesFromSatellites(satellites []entity.Satellite) (distances [3]float64, messages [3][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
 		fmt.Print("request information is invalid \n")
@@ -65,7 +65,7 @@ func getValuesFromSatellites(satellites []entity.ClassifiedMessage) (distances [
 	return distances, messages, nil
 }
 
-func hasRepeatedSatelliteNames(satellites []entity.ClassifiedMessage) bool {
+func hasRepeatedSatelliteNames(satellites []entity.Satellite) bool {
 	for i, satellite := range satellites {
 		for j := i + 1; j < len(satellites); j++ {
 			if satellite.Name == satellites[j].Name {

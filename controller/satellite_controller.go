@@ -36,7 +36,7 @@ func PostTopSecretMessage(ctx *gin.Context) {
 func PostSplittedTopSecretMessage(ctx *gin.Context) {
 	name := ctx.Param("name")
 
-	var classifiedMessage entity.ClassifiedMessage
+	var classifiedMessage entity.Satellite
 	classifiedMessage.Name = name
 	ctx.ShouldBindJSON(&classifiedMessage)
 

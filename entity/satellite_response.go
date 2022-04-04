@@ -5,7 +5,7 @@ type Position struct {
 	Y float64 `json:"y"`
 }
 
-type SolutionResponse struct {
+type StarshipResponse struct {
 	Position Position `json:"position"`
 	Message  string   `json:"message"`
 }
