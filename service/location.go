@@ -1,26 +1,22 @@
 package service
 
 import (
-	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/lib/trilateration"
 )
 
-var sats = []entity.Satellite{
-	{
-		Name: "Kenobi",
-		Pos:  entity.Point{X: -500, Y: -200},
-	},
-	{
-		Name: "Skywalker",
-		Pos:  entity.Point{X: 100, Y: -100},
-	},
-	{
-		Name: "Sato",
-		Pos:  entity.Point{X: 500, Y: 100},
-	},
+func getPositions() map[string]trilateration.Point {
+
+	positions := make(map[string]trilateration.Point)
+	positions["kenobi"] = trilateration.Point{X: -500.0, Y: -200.0}
+	positions["skywalker"] = trilateration.Point{X: 100.0, Y: -100.0}
+	positions["sato"] = trilateration.Point{X: 500.0, Y: 100.0}
+
+	return positions
 }
 
 func GetLocation(distances ...float32) (x, y float32, err error) {
+
+	pos := getPositions()
 
 	distanceKenobi := float64(distances[0])
 	distanceSkywalker := float64(distances[1])
@@ -28,7 +24,7 @@ func GetLocation(distances ...float32) (x, y float32, err error) {
 
 	preciseDistances := []float64{distanceKenobi, distanceSkywalker, distanceSato}
 
-	solution, err := trilateration.Solve2DTrilateration(sats[0].Pos, sats[1].Pos, sats[2].Pos, preciseDistances)
+	solution, err := trilateration.Solve2DTrilateration(pos["kenobi"], pos["skywalker"], pos["sato"], preciseDistances)
 
 	return float32(solution.X), float32(solution.Y), err
 }

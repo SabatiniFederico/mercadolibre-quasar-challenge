@@ -12,18 +12,14 @@ func GetMessage(messages ...[]string) (msg string, err error) {
 	solution := []string{}
 
 	for i, word := range shiftedMessages[0] {
-		word, err := mergeTwoWords(word, messages[1][i])
 
-		if err != nil {
-			return "", err
+		for k := 1; k < len(messages); k++ {
+			word, err = mergeTwoWordsOfCode(word, messages[k][i])
+
+			if err != nil {
+				return "", err
+			}
 		}
-
-		word, err2 := mergeTwoWords(word, messages[2][i])
-
-		if err2 != nil {
-			return "", err2
-		}
-
 		solution = append(solution, word)
 	}
 
@@ -49,7 +45,7 @@ func minLength(messages ...[]string) (min int) {
 	return min
 }
 
-func mergeTwoWords(word1, word2 string) (string, error) {
+func mergeTwoWordsOfCode(word1, word2 string) (string, error) {
 	if word1 != "" {
 		if word1 != word2 && word2 != "" {
 			return word1, errors.New("contradiction found")

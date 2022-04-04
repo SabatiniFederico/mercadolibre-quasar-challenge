@@ -22,7 +22,7 @@ func CalculateStarshipClassifiedCode(satellites []entity.ClassifiedMessage) (ans
 	}
 
 	answer = entity.SolutionResponse{
-		Position: entity.Point{X: float64(x), Y: float64(y)},
+		Position: entity.Position{X: float64(x), Y: float64(y)},
 		Message:  message,
 	}
 	return answer, nil
@@ -38,14 +38,11 @@ func PostSplittedClassifiedCode(newClassifiedMessage entity.ClassifiedMessage) {
 	splittedSatellites = append(splittedSatellites, newClassifiedMessage)
 }
 
-func GetSplittedClassifiedCode() (answer entity.SolutionResponse, err error) {
+func GetSplittedClassifiedCode() (entity.SolutionResponse, error) {
 	return CalculateStarshipClassifiedCode(splittedSatellites)
 }
 
-func getValuesFromSatellites(satellites []entity.ClassifiedMessage) ([3]float32, [3][]string, error) {
-
-	var distances [3]float32
-	var messages [3][]string
+func getValuesFromSatellites(satellites []entity.ClassifiedMessage) (distances [3]float32, messages [3][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
 		fmt.Print("request information is invalid \n")
