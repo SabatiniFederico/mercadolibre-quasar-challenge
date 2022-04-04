@@ -7,5 +7,5 @@ type Satellite struct {
 }
 
 type SatellitesRequest struct {
-	Satellites []Satellite `json:"satellites"`
+	Satellites []Satellite `json:"satellites" validate:"dive,required"`
 }

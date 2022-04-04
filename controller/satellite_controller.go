@@ -10,10 +10,14 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+var validate = validator.New()
+
 func PostTopSecretMessage(ctx *gin.Context) {
 	var request entity.SatellitesRequest
 
-	err := ctx.ShouldBindJSON(&request)
+	ctx.ShouldBindJSON(&request)
+	err := validate.Struct(request)
+
 	if err == nil {
 
 		answer, err := service.CalculateStarshipClassifiedCode(request.Satellites)
@@ -40,8 +44,6 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 	var classifiedMessage entity.Satellite
 	classifiedMessage.Name = name
 	ctx.ShouldBindJSON(&classifiedMessage)
-
-	var validate = validator.New()
 
 	if errs := validate.Struct(classifiedMessage); errs != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
