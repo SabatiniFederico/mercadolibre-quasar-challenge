@@ -6,12 +6,10 @@ import (
 )
 
 func TestPreciseTrilateration(t *testing.T) {
-	pos1 := Point{X: 0, Y: 0}
-	pos2 := Point{X: 100, Y: 0}
-	pos3 := Point{X: 50, Y: 30}
+	pos := []Point{{X: 0, Y: 0}, {X: 100, Y: 0}, {X: 50, Y: 30}}
 	dists := []float64{50, 50, 30}
 
-	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
+	actualPosition, error := Solve2DTrilateration(pos, dists)
 	expectedPosition := Point{X: 50.0, Y: 0.0}
 
 	if error != nil {
@@ -24,12 +22,10 @@ func TestPreciseTrilateration(t *testing.T) {
 }
 
 func TestNonPreciseTrilateration(t *testing.T) {
-	pos1 := Point{X: 0, Y: 0}
-	pos2 := Point{X: 100, Y: 0}
-	pos3 := Point{X: 50, Y: 30}
+	pos := []Point{{X: 0, Y: 0}, {X: 100, Y: 0}, {X: 50, Y: 30}}
 	dists := []float64{100, 100, 56.6025}
 
-	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
+	actualPosition, error := Solve2DTrilateration(pos, dists)
 	expectedPosition := Point{X: 50.0, Y: 86.6025}
 
 	if error != nil {
@@ -42,12 +38,10 @@ func TestNonPreciseTrilateration(t *testing.T) {
 }
 
 func TestNoSolutionForTrilateration(t *testing.T) {
-	pos1 := Point{X: 0, Y: 0}
-	pos2 := Point{X: 100, Y: 0}
-	pos3 := Point{X: 50, Y: 30}
+	pos := []Point{{X: 0, Y: 0}, {X: 100, Y: 0}, {X: 50, Y: 30}}
 	dists := []float64{10, 10, 10}
 
-	actualPosition, error := Solve2DTrilateration(pos1, pos2, pos3, dists)
+	actualPosition, error := Solve2DTrilateration(pos, dists)
 
 	if error == nil {
 		t.Errorf("There was a solution for imposible trilateration case (%f, %f)", actualPosition.X, actualPosition.Y)
