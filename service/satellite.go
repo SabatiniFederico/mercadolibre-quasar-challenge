@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 )
@@ -31,11 +30,11 @@ func CalculateStarshipClassifiedCode(satellites []entity.Satellite) (answer enti
 		return entity.StarshipResponse{}, errRequest
 	}
 
-	x, y, errLocation := GetLocation(distances[0], distances[1], distances[2])
-	message, errMessage := GetMessage(criptedMessages[0], criptedMessages[1], criptedMessages[2])
+	x, y, errLocation := GetLocation(distances...)
+	message, errMessage := GetMessage(criptedMessages...)
 
 	if errLocation != nil || errMessage != nil {
-		return entity.StarshipResponse{}, errors.New("could not calculate position or message with provided info")
+		return entity.StarshipResponse{}, errors.New("couldn't calculate position or message with provided info")
 	}
 
 	answer = entity.StarshipResponse{
@@ -45,26 +44,19 @@ func CalculateStarshipClassifiedCode(satellites []entity.Satellite) (answer enti
 	return answer, nil
 }
 
-func getValuesFromSatellites(satellites []entity.Satellite) (distances [3]float64, messages [3][]string, err error) {
+func getValuesFromSatellites(satellites []entity.Satellite) (distances []float64, messages [][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
-		fmt.Print("request information is invalid \n")
 		return distances, messages, errors.New("request information is invalid")
 	}
 
-	for i := 0; i < len(satellites); i += 1 {
-		switch satellites[i].Name {
-		case "kenobi":
-			distances[0] = satellites[i].Distance
-			messages[0] = satellites[i].Message
-		case "skywalker":
-			distances[1] = satellites[i].Distance
-			messages[1] = satellites[i].Message
-		case "sato":
-			distances[2] = satellites[i].Distance
-			messages[2] = satellites[i].Message
-		}
+	sortedSatellites := sortSatellites(satellites)
+
+	for _, satellite := range sortedSatellites {
+		messages = append(messages, satellite.Message)
+		distances = append(distances, satellite.Distance)
 	}
+
 	return distances, messages, nil
 }
 
@@ -77,4 +69,22 @@ func hasRepeatedSatelliteNames(satellites []entity.Satellite) bool {
 		}
 	}
 	return false
+}
+
+//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
+func sortSatellites(satellites []entity.Satellite) (sortedSats []entity.Satellite) {
+
+	sortedSats = append(sortedSats, satellites[findIndexOf("kenobi", satellites)])
+	sortedSats = append(sortedSats, satellites[findIndexOf("skywalker", satellites)])
+	sortedSats = append(sortedSats, satellites[findIndexOf("sato", satellites)])
+	return sortedSats
+}
+
+func findIndexOf(name string, satellites []entity.Satellite) int {
+	for i, sat := range satellites {
+		if sat.Name == name {
+			return i
+		}
+	}
+	return -1
 }
