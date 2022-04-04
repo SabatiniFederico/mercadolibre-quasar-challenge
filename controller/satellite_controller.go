@@ -20,7 +20,7 @@ func PostTopSecretMessage(ctx *gin.Context) {
 
 	if err == nil {
 
-		answer, err := service.CalculateStarshipClassifiedCode(request.Satellites)
+		answer, err := service.CalculateStarshipCode(request.Satellites)
 
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{

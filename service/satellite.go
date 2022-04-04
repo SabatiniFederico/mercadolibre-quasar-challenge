@@ -20,10 +20,10 @@ func AddSatelliteCode(newClassifiedMessage entity.Satellite) {
 }
 
 func GetSplittedSatelliteCode() (entity.StarshipResponse, error) {
-	return CalculateStarshipClassifiedCode(storedSatellites)
+	return CalculateStarshipCode(storedSatellites)
 }
 
-func CalculateStarshipClassifiedCode(satellites []entity.Satellite) (answer entity.StarshipResponse, err error) {
+func CalculateStarshipCode(satellites []entity.Satellite) (answer entity.StarshipResponse, err error) {
 
 	distances, criptedMessages, errRequest := getValuesFromSatellites(satellites)
 
