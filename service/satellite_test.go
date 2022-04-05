@@ -35,6 +35,22 @@ func TestCalculateStarshipCode(t *testing.T) {
 
 }
 
+func TestCalculateStarshipCodeWithModifiedOrder(t *testing.T) {
+
+	testInput := []entity.Satellite{
+		testSatellites[2],
+		testSatellites[0],
+		testSatellites[1],
+	}
+
+	expectedOutput := "este es un challenge de mercado libre"
+	solution, err := CalculateStarshipCode(testInput)
+
+	assert.Nil(t, err)
+	assert.Equal(t, expectedOutput, solution.Message)
+
+}
+
 func TestCalculateStarshipCodeWithRepeatedKenobi(t *testing.T) {
 
 	testInput := []entity.Satellite{

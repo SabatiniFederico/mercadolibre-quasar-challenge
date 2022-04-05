@@ -48,7 +48,7 @@ func CalculateStarshipCode(satellites []entity.Satellite) (answer entity.Starshi
 func getValuesFromSatellites(satellites []entity.Satellite) (distances []float64, messages [][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
-		return distances, messages, errors.New("request is invalid, we expected to receive a kenobi, sato, and skywalker once")
+		return distances, messages, errors.New("request is invalid, we expected to receive kenobi, sato, and skywalker once")
 	}
 
 	sortedSatellites := sortSatellites(satellites)

@@ -32,7 +32,7 @@ func PostTopSecretMessage(ctx *gin.Context) {
 		}
 	} else {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": errValidation.Error(),
+			"message": "validation error on satellites json",
 		})
 	}
 
@@ -63,7 +63,7 @@ func GetSplittedTopSecretMessage(ctx *gin.Context) {
 	answer, err := service.GetSplittedSatelliteCode()
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"message": err.Error(),
+			"message": "validation error on satellites json",
 		})
 	} else {
 		json.Marshal(answer)
