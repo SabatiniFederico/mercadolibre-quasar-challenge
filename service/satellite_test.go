@@ -21,7 +21,7 @@ var testSatellites = []entity.Satellite{
 	{
 		Name:     "sato",
 		Distance: 680.0735,
-		Message:  []string{"este", "", "un", "", "de", "mercado", "libre"},
+		Message:  []string{"", "", "", "este", "", "un", "", "de", "mercado", "libre"},
 	},
 }
 
@@ -37,7 +37,11 @@ func TestCalculateStarshipCode(t *testing.T) {
 
 func TestCalculateStarshipCodeWithRepeatedKenobi(t *testing.T) {
 
-	testInput := []entity.Satellite{testSatellites[0], testSatellites[0], testSatellites[0]}
+	testInput := []entity.Satellite{
+		testSatellites[0],
+		testSatellites[0],
+		testSatellites[0],
+	}
 
 	_, err := CalculateStarshipCode(testInput)
 	assert.NotNil(t, err)
@@ -51,7 +55,7 @@ func TestCalculatedStarshipWithNoEnoughSatellites(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestAddClassifiedCodeTwoTimesWithSameSatellite(t *testing.T) {
+func TestAddSatelliteCodeTwoTimesWithTheSameSatellite(t *testing.T) {
 
 	AddSatelliteCode(testSatellites[0])
 	AddSatelliteCode(testSatellites[0])
@@ -59,7 +63,7 @@ func TestAddClassifiedCodeTwoTimesWithSameSatellite(t *testing.T) {
 	assert.Equal(t, 1, len(storedSatellites))
 }
 
-func TestGetSplittedClassifiedCodeWithNoAdditions(t *testing.T) {
+func TestGetSplittedSatelliteCodeWithNoAdditions(t *testing.T) {
 
 	_, err := GetSplittedSatelliteCode()
 	assert.NotNil(t, err)

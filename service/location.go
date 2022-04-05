@@ -15,9 +15,9 @@ func getPositions() []trilateration.Point {
 
 func GetLocation(distances ...float64) (x, y float64, err error) {
 
-	pos := getPositions()
+	position := getPositions()
 
-	solution, err := trilateration.Solve2DTrilateration(pos, distances)
+	solution, err := trilateration.Solve2DTrilateration(position, distances)
 
 	return solution.X, solution.Y, err
 }

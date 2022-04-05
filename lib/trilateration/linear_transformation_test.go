@@ -1,9 +1,10 @@
 package trilateration
 
 import (
-	"fmt"
 	"math"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTranslatePoints(t *testing.T) {
@@ -15,9 +16,7 @@ func TestTranslatePoints(t *testing.T) {
 	actualPoints := linearPointsTranslation(translation, inputPoints...)
 
 	for i, expectedPoint := range expected {
-		if isNonAccuratePosition(expectedPoint, actualPoints[i]) {
-			t.Errorf("The position expected was (%f, %f), but received (%f, %f)", expectedPoint.X, expectedPoint.Y, actualPoints[i].X, actualPoints[i].Y)
-		}
+		assert.Equal(t, expectedPoint, actualPoints[i])
 	}
 }
 
@@ -26,8 +25,9 @@ func TestRotateOnePoint(t *testing.T) {
 
 	rotation := math.Acos(element.X / math.Sqrt(math.Pow(element.X, 2)+math.Pow(element.Y, 2)))
 	result := rotatePoint(-rotation, rotatePoint(rotation, element))
-	fmt.Printf("rotation: (%f, %f), expected (600,100)", result.X, result.Y)
-	//if(rotatePoint(-rotation, rotatePoint(rotation, element)))
+
+	assert.InDelta(t, element.X, result.X, 0.005)
+	assert.InDelta(t, element.Y, result.Y, 0.005)
 }
 func TestRotatePoints(t *testing.T) {
 
@@ -51,9 +51,8 @@ func TestRotatePoints(t *testing.T) {
 	for _, test := range tests {
 		actualPoints := linearPointsRotation(test.inputRotation, test.inputPoints...)
 		for i, expectedPoint := range test.expected {
-			if isNonAccuratePosition(expectedPoint, actualPoints[i]) {
-				t.Errorf("The position expected was (%f, %f), but received (%f, %f)", expectedPoint.X, expectedPoint.Y, actualPoints[i].X, actualPoints[i].Y)
-			}
+			assert.InDelta(t, actualPoints[i].X, expectedPoint.X, 0.005)
+			assert.InDelta(t, actualPoints[i].Y, expectedPoint.Y, 0.005)
 		}
 	}
 
