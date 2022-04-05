@@ -30,7 +30,8 @@ Estructura del proyecto
 - **Service**  contiene la capa de negocio. Aqui se define toda la lógica necesaria para calcular el mensaje secreto de la Nave del imperio.
 
 ## Consideraciones 
-**GetLocation**: Recibe una lista de distancias y a partir de un algoritmo de trilateración resuelve la posición. 
+### GetLocation ### 
+Recibe una lista de distancias y a partir de un algoritmo de trilateración resuelve la posición. 
 
 Se decidio realizar una implementación propia en *2D* del algoritmo, en ves de utilizar una libreria externa. En caso de que se quiera cambiar a futuro, se puede remover la libreria y hacer un `go get` de la libreria deseada. 
 
@@ -49,10 +50,27 @@ Cualquier conjunto de puntos pueden ser transladado para cumplir dichas condicio
 4. Validamos con el tercer punto (sato) cual de las 2 soluciones de *(y)* es la correcta.
 5. En caso de que haya solución rotamos y transladamos el resultado en sentido inverso.
 
-**GetMessage**: Recibe mensajes incompletos y resuelve el mensaje original
+<br/>
 
-Se decidio interpretar el defasaje como strings vacios que llegan a la izquierda del mensaje. 
+### GetMessage ###
+Recibe mensajes incompletos y resuelve el mensaje original
 
+El defasaje del mensaje se decidio interpretarlo el como un *"Ruido"* de strings vacios que llegan a la izquierda del mensaje. 
+
+La solución involucra buscar el slice más corto, utilizarlo como parametro para determinar el largo del mensaje y finalmente cortar los otros mensajes. 
+Luego se revisa que el mensaje sea descifrable, es decir que no tenga contradicciones por ejemplo los mensajes:
+```
+["Luke","yo","soy","tu","padre]
+["Usa","la","fuerza","Anakin","Skywalker]
+```
+
+No tienen solución válida, ya que tendrías que elegir si descartar el primer mensaje o el segundo, contradicciones en una palabra se interpretan como basura y descartan el mensaje de ser una respuesta válida. 
+
+### Servicio "Topsecret_split ###
+
+Para el servicio topsecret_split se posee una lista vacía de satélites y se utiliza *validator* para revisar que los nombres sean efectivamente *"kenobi", "skywalker o "sato"* en minúscula
+
+Si se agrega información de un satélite que ya existia en la lista, este mismo se actualizara con los nuevos datos (distancia y mensaje)
 
 ## Endpoints
   
@@ -92,10 +110,10 @@ Ejemplo de una respuesta exitosa:
 
 ```json
 {
-"position": {
-"x": 100,
-"y": -450.00000000000006
-},
-"message": "este es un challenge de mercado libre"
+	"position": {
+		"x": 100,
+		"y": -450.00000000000006
+	},
+	"message": "este es un challenge de mercado libre"
 }
 ```
