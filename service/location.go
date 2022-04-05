@@ -4,20 +4,20 @@ import (
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/lib/trilateration"
 )
 
-func getPositions() []trilateration.Point {
+func getPositions() (positions []trilateration.Point) {
 
-	kenobi := trilateration.Point{X: -500.0, Y: -200.0}
-	skywalker := trilateration.Point{X: 100.0, Y: -100.0}
-	sato := trilateration.Point{X: 500.0, Y: 100.0}
+	positions = append(positions, trilateration.Point{X: -500.0, Y: -200.0})
+	positions = append(positions, trilateration.Point{X: 100.0, Y: -100.0})
+	positions = append(positions, trilateration.Point{X: 500.0, Y: 100.0})
 
-	return []trilateration.Point{kenobi, skywalker, sato}
+	return positions
 }
 
 func GetLocation(distances ...float64) (x, y float64, err error) {
 
-	position := getPositions()
+	positions := getPositions()
 
-	solution, err := trilateration.Solve2DTrilateration(position, distances)
+	solution, err := trilateration.Solve2DTrilateration(positions, distances)
 
 	return solution.X, solution.Y, err
 }
