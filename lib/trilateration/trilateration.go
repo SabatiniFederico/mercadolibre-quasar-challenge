@@ -7,7 +7,7 @@ import (
 
 var ErrNoSolution = errors.New("there is no posible solution")
 
-const marginOfDistanceError = 1
+const marginOfDistanceError = 0.1
 
 type Point struct {
 	X float64
@@ -28,19 +28,30 @@ func Solve2DTrilateration(points []Point, distances []float64) (Point, error) {
 	rotation := math.Acos(tPoints[1].X / math.Sqrt(math.Pow(tPoints[1].X, 2)+math.Pow(tPoints[1].Y, 2)))
 	rotatedPoints := linearPointsRotation(-rotation, tPoints...)
 
+	//Calculating X and Y.
 	coordinateX := (math.Pow(r1, 2) - math.Pow(r2, 2) + math.Pow(rotatedPoints[1].X, 2)) / (2 * rotatedPoints[1].X)
 	coordinateY := math.Sqrt(math.Pow(r1, 2) - math.Pow(coordinateX, 2))
 
 	//i have to check two possible solutions for Y
-	if isAccurateDistance(r3, normalize(rotatedPoints[2].X-coordinateX, rotatedPoints[2].Y+coordinateY)) {
+	if isSolution(r3, rotatedPoints[2].X, rotatedPoints[2].Y, coordinateX, -coordinateY) {
 		coordinateY = -coordinateY
 	}
 
-	if isAccurateDistance(r3, normalize(rotatedPoints[2].X-coordinateX, rotatedPoints[2].Y-coordinateY)) {
-		return translatePoint(points[0], rotatePoint(rotation, Point{X: coordinateX, Y: coordinateY})), nil
+	result := Point{X: coordinateX, Y: coordinateY}
+
+	if isSolution(r3, rotatedPoints[2].X, rotatedPoints[2].Y, coordinateX, coordinateY) {
+		return translateAndRotate(points[0], rotation, result), nil
 	}
 
 	return Point{}, ErrNoSolution
+}
+
+func translateAndRotate(translation Point, rotation float64, point Point) Point {
+	return translatePoint(translation, rotatePoint(rotation, point))
+}
+
+func isSolution(targetDistance, targetX, targetY, x, y float64) bool {
+	return isAccurateDistance(targetDistance, normalize(targetX-x, targetY-y))
 }
 
 func normalize(x float64, y float64) float64 {
