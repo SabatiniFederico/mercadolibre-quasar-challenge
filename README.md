@@ -23,11 +23,32 @@ Estructura del proyecto
 ├── router
 └── service
 ```
-- **Controller** as
+- **Controller** recibe y le otorga el primer tratamiento a los request http, para luego enviarlos al servicio apropiado.
 - **Entity**  contiene las estructuras que representan las request y response
 - **lib / trilateration** Es mi propia implementación de trilateración para ubicar la posición de la nave espacial
 - **Router** obtiene los endpoints y los envia al controlador.
 - **Service**  contiene la capa de negocio. Aqui se define toda la lógica necesaria para calcular el mensaje secreto de la Nave del imperio.
+
+## Consideraciones 
+**GetLocation**: Recibe una lista de distancias y a partir de un algoritmo de trilateración resuelve la posición. Se decidio realizar una implementación propia en *2D* del algoritmo, en ves de utilizar una libreria externa. En caso de que se quiera cambiar a futuro, se puede remover la libreria y hacer un `go get` de la libreria deseada.
+
+La solución es propia y esta basada en el siguiente articulo de la wiki:
+https://en.wikipedia.org/wiki/True-range_multilateration#Two_Cartesian_dimensions
+
+Aqui se propone una forma mucho más fácil de calcular trilateración que la estandar, con la excepción de que se requiere que el punto 1 de interés este en el origen y el segundo punto en eje de abscisas.
+
+Afortunadamente cualquier conjunto de puntos pueden ser transladado para cumplir dichas condiciones utilizando transformaciones lineales. La idea matematica es la siguiente:
+
+1. Transladar para que el primer punto se encuentre en el *(0,0)* en este caso sería Kenobi.
+2. Rotar para que el segundo punto quede ubicado en el eje de las abscisas, en este caso Skywalker.
+3. Calculamos *(x,y)* con las formulas propuestas por el articulo:
+
+![{\displaystyle {\begin{aligned}x&={\frac {r_{1}^{2}-r_{2}^{2}+U^{2}}{2U}}\\[4pt]y&=\pm {\sqrt {r_{1}^{2}-x^{2}}}\end{aligned}}}](https://wikimedia.org/api/rest_v1/media/math/render/svg/ebcc6eb379df69ed08e8e83b5c4488c83481b3e3)
+
+4. Validamos con el tercer punto cual de las 2 soluciones de *y* es la correcta.
+5. En caso de que haya solución rotamos y transladamos el resultado en sentido inverso.
+
+GetMessage: Recibe mensajes incompletos y resuelve el mensaje original
 
 
 ## Endpoints
@@ -47,7 +68,7 @@ Ejemplo de request body:
 		{
 			"name": "kenobi",
 			"distance": 650.0,
-			"message": ["", "", "", "", "", "es", "", "challenge", "", "mercado", "libre"]
+			"message": ["", "", "", "", "es", "", "challenge", "", "mercado", "libre"]
 		},
 		{
 			"name": "skywalker",
