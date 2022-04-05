@@ -36,6 +36,7 @@ func TestCalculateStarshipCode(t *testing.T) {
 }
 
 func TestCalculateStarshipCodeWithRepeatedKenobi(t *testing.T) {
+
 	testInput := []entity.Satellite{testSatellites[0], testSatellites[0], testSatellites[0]}
 
 	_, err := CalculateStarshipCode(testInput)
@@ -43,6 +44,7 @@ func TestCalculateStarshipCodeWithRepeatedKenobi(t *testing.T) {
 }
 
 func TestCalculatedStarshipWithNoEnoughSatellites(t *testing.T) {
+
 	testInput := []entity.Satellite{testSatellites[0]}
 
 	_, err := CalculateStarshipCode(testInput)
