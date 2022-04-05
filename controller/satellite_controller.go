@@ -16,15 +16,15 @@ func PostTopSecretMessage(ctx *gin.Context) {
 	var request entity.SatellitesRequest
 
 	ctx.ShouldBindJSON(&request)
-	err := validate.Struct(request)
+	errValidation := validate.Struct(request)
 
-	if err == nil {
+	if errValidation == nil {
 
 		answer, err := service.CalculateStarshipCode(request.Satellites)
 
 		if err != nil {
 			ctx.JSON(http.StatusNotFound, gin.H{
-				"message": "impossible to determine classified message",
+				"message": err.Error(),
 			})
 		} else {
 			json.Marshal(answer)
@@ -32,7 +32,7 @@ func PostTopSecretMessage(ctx *gin.Context) {
 		}
 	} else {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "bad format",
+			"message": errValidation.Error(),
 		})
 	}
 
@@ -45,14 +45,16 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 	classifiedMessage.Name = name
 	ctx.ShouldBindJSON(&classifiedMessage)
 
-	if errs := validate.Struct(classifiedMessage); errs != nil {
+	if errValidation := validate.Struct(classifiedMessage); errValidation != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "bad format",
+			"message": errValidation.Error(),
 		})
 	} else {
 		service.AddSatelliteCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
-		ctx.JSON(http.StatusCreated, classifiedMessage)
+		ctx.JSON(http.StatusCreated, gin.H{
+			"message": "The satellite has been successfully added",
+		})
 	}
 }
 
@@ -61,7 +63,7 @@ func GetSplittedTopSecretMessage(ctx *gin.Context) {
 	answer, err := service.GetSplittedSatelliteCode()
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
-			"message": "impossible to determine classified message",
+			"message": err.Error(),
 		})
 	} else {
 		json.Marshal(answer)
