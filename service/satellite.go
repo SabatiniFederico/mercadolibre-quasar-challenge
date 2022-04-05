@@ -9,7 +9,7 @@ import (
 var availableSatellitesNames = [...]string{"kenobi", "skywalker", "sato"}
 var storedSatellites []entity.Satellite
 
-func AddSatelliteCode(newClassifiedMessage entity.Satellite) {
+func PostSatelliteCode(newClassifiedMessage entity.Satellite) {
 	for i, satellite := range storedSatellites {
 		if satellite.Name == newClassifiedMessage.Name {
 			storedSatellites[i] = newClassifiedMessage
@@ -48,7 +48,7 @@ func CalculateStarshipCode(satellites []entity.Satellite) (answer entity.Starshi
 func getValuesFromSatellites(satellites []entity.Satellite) (distances []float64, messages [][]string, err error) {
 
 	if len(satellites) != 3 || hasRepeatedSatelliteNames(satellites) {
-		return distances, messages, errors.New("request information is invalid")
+		return distances, messages, errors.New("request is invalid, we expected to receive a kenobi, sato, and skywalker once")
 	}
 
 	sortedSatellites := sortSatellites(satellites)
