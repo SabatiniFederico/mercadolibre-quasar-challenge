@@ -32,9 +32,9 @@ Estructura del proyecto
 ## Consideraciones 
 **GetLocation**: Recibe una lista de distancias y a partir de un algoritmo de trilateración resuelve la posición. 
 
-Se decidio realizar una implementación propia en *2D* del algoritmo, en ves de utilizar una libreria externa. En caso de que se quiera cambiar a futuro, se puede remover la libreria y hacer un `go get` de la libreria deseada. la solución esta basada en el siguiente articulo de la wiki:
+Se decidio realizar una implementación propia en *2D* del algoritmo, en ves de utilizar una libreria externa. En caso de que se quiera cambiar a futuro, se puede remover la libreria y hacer un `go get` de la libreria deseada. 
 
-https://en.wikipedia.org/wiki/True-range_multilateration#Two_Cartesian_dimensions
+Se baso en el siguiente articulo de la wiki: https://en.wikipedia.org/wiki/True-range_multilateration#Two_Cartesian_dimensions
 
 Aqui se propone una forma mucho más fácil de calcular trilateración que la estandar, con la excepción de que se requiere que el punto 1 de interés este en el origen y el segundo punto en eje de abscisas.
 
