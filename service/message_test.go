@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -39,7 +38,5 @@ func TestRemoveNoiseOfMessages(t *testing.T) {
 	message2 := []string{"", "", "un", "mensaje"}
 
 	messages := removeNoiseOfMessages(message1, message2)
-	fmt.Print(len(messages[0]))
-	fmt.Print("asda \n")
 	assert.Equal(t, len(messages[0]), len(messages[1]))
 }
