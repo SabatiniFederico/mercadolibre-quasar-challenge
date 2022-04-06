@@ -90,9 +90,9 @@ Si se agrega información de un satélite que ya existía en la lista, este mism
 Obtiene la posición y mensaje completo de la nave destinataria que haya enviado el mensaje. Algunas posiciones no son válidas.
 A continuación se provee una request de ejemplo.
 
-`POST -> /topsecret`
-
 Ejemplo de request body:
+
+`POST -> /topsecret`
 ```json
 {
 	"satellites": [
@@ -118,6 +118,8 @@ Ejemplo de request body:
 **Topsecret_split**
 
 Similar a TopSecret, solo que aquí el nombre llega por request param.
+
+Ejemplo de request body:
 
 `POST -> /topsecret_split/kenobi`
 
