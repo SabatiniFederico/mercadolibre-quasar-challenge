@@ -11,12 +11,23 @@ Para iniciar la app en local
 > 
 Para ejecutar los tests
 
-> $ go test ./... -cover
+> $ go test ./... -v -cover
+
+La aplicación se a hosteado con EC2 en amazon web services, los endpoints son los siguientes:
+
+
+
+- **Post:** http://ec2-54-221-84-25.compute-1.amazonaws.com:8080/topsecret/
+
+- **Post:** http://ec2-54-221-84-25.compute-1.amazonaws.com:8080/topsecret_split/{name}
+
+- **Get:** http://ec2-54-221-84-25.compute-1.amazonaws.com:8080/topsecret_split/
 
 ## Estructura
 ```
 Estructura del proyecto
 ├── controller
+├── data
 ├── entity
 ├── lib
 │ └── trilateration
@@ -24,8 +35,9 @@ Estructura del proyecto
 └── service
 ```
 - **Controller** recibe y le otorga el primer tratamiento a los request http, para luego enviarlos al servicio apropiado.
-- **Entity** contiene las estructuras que representan las request y response
-- **lib / trilateration** Es mi propia implementación de trilateración para ubicar la posición de la nave espacial
+- **Data** es quién tiene los nombres y posiciones de los satelites.
+- **Entity** contiene las estructuras que representan las request y response.
+- **lib / trilateration** Es mi propia implementación de trilateración para ubicar una posición dadas 3 distancias y 3 posiciones.
 - **Router** obtiene los endpoints y los envía al controlador.
 - **Service**  contiene la capa de negocio. Aquí se define toda la lógica necesaria para calcular el mensaje secreto de la Nave del imperio.
 
@@ -130,11 +142,11 @@ Ejemplo de una respuesta exitosa:
 ```
 
 ### Iteraciones futuras ###
-Esta sección destaca una lista de posibles mejoras a la hora de iterar el proyecto productivo.
+Esta sección destaca una lista de posibles mejoras a la hora de continuar iterarando el proyecto productivo.
 
-- Se podría agregar algún Serverless Redis o DynamoDB para gestionar los nombres de los satélites y sus posiciones constantes.
-- Siempre es un plus agregar documentación con Swagger API
-- La capa de servicio tiene un coverage de 95.2%, pero estaría bueno tener tests de integración en la capa del controlador para completar.
-- Crear algún custom Logger para tener mejor control del flujo de la aplicación.
+- La capa de Servicio tiene un coverage total, pero estaría bueno tener tests de integración en la capa del controlador para completar.
+- La capa de Data está pensada para que en un futuro sea remplazada por algún Repositorio que gestione nombres y posiciones. Se podría encarar almacenar dichos datos en algún Serverless Redis o DynamoDB para empezar y posteriormente escalarlo a un sistema en donde se puedan tener más que tan solo 3 satélites en el sistema.
+- Siempre considero un plus agregar documentación con Swagger API, ayuda un montón a los programadores que quieran consumirnos.
+- Se debería considerar crear algún custom Logger para tener mejor control del flujo de la aplicación.
 
 
