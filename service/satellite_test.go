@@ -7,40 +7,55 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testSatellites = []entity.Satellite{
-	{
-		Name:     "kenobi",
-		Distance: 650.0,
-		Message:  []string{"", "es", "", "challenge", "", "mercado", "libre"},
-	},
-	{
-		Name:     "skywalker",
-		Distance: 350.0,
-		Message:  []string{"este", "es", "", "", "de", "", "libre"},
-	},
-	{
-		Name:     "sato",
-		Distance: 680.0735,
-		Message:  []string{"", "", "", "este", "", "un", "", "de", "mercado", "libre"},
-	},
+func getTestData() []entity.Satellite {
+	return []entity.Satellite{
+		{
+			Name:     "kenobi",
+			Distance: 650.0,
+			Message:  []string{"", "es", "", "challenge", "", "mercado", "libre"},
+		},
+		{
+			Name:     "skywalker",
+			Distance: 350.0,
+			Message:  []string{"este", "es", "", "", "de", "", "libre"},
+		},
+		{
+			Name:     "sato",
+			Distance: 680.0735,
+			Message:  []string{"", "", "", "este", "", "un", "", "de", "mercado", "libre"},
+		},
+	}
 }
 
 func TestCalculateStarshipCode(t *testing.T) {
 
+	testInput := getTestData()
 	expectedOutput := "este es un challenge de mercado libre"
-	solution, err := CalculateStarshipCode(testSatellites)
+	solution, err := CalculateStarshipCode(testInput)
 
 	assert.Nil(t, err)
 	assert.Equal(t, expectedOutput, solution.Message)
 
 }
 
+func TestCalculateStarshipCodeWithInvalidDistance(t *testing.T) {
+
+	testInput := getTestData()
+	testInput[0].Distance = 100
+
+	_, err := CalculateStarshipCode(testInput)
+
+	assert.NotNil(t, err)
+
+}
+
 func TestCalculateStarshipCodeWithModifiedOrder(t *testing.T) {
 
+	testData := getTestData()
 	testInput := []entity.Satellite{
-		testSatellites[2],
-		testSatellites[0],
-		testSatellites[1],
+		testData[2],
+		testData[0],
+		testData[1],
 	}
 
 	expectedOutput := "este es un challenge de mercado libre"
@@ -53,19 +68,21 @@ func TestCalculateStarshipCodeWithModifiedOrder(t *testing.T) {
 
 func TestCalculateStarshipCodeWithRepeatedKenobi(t *testing.T) {
 
+	testData := getTestData()
 	testInput := []entity.Satellite{
-		testSatellites[0],
-		testSatellites[0],
-		testSatellites[0],
+		testData[0],
+		testData[0],
+		testData[0],
 	}
 
 	_, err := CalculateStarshipCode(testInput)
 	assert.NotNil(t, err)
 }
 
-func TestCalculatedStarshipWithNoEnoughSatellites(t *testing.T) {
+func TestCalculateStarshipCodeWithoutEnoughSatellites(t *testing.T) {
 
-	testInput := []entity.Satellite{testSatellites[0]}
+	testData := getTestData()
+	testInput := []entity.Satellite{testData[0]}
 
 	_, err := CalculateStarshipCode(testInput)
 	assert.NotNil(t, err)
@@ -73,25 +90,27 @@ func TestCalculatedStarshipWithNoEnoughSatellites(t *testing.T) {
 
 func TestAddSatelliteCodeTwoTimesWithTheSameSatellite(t *testing.T) {
 
-	AddSatelliteCode(testSatellites[0])
-	AddSatelliteCode(testSatellites[0])
+	testData := getTestData()
+	AddSatelliteCode(testData[0])
+	AddSatelliteCode(testData[0])
 
 	assert.Equal(t, 1, len(storedSatellites))
 }
 
-func TestGetSplittedSatelliteCodeWithNoAdditions(t *testing.T) {
+func TestGetSplittedStarshipCodeWithNoAdditions(t *testing.T) {
 
 	_, err := GetStarshipCodeFromStoredSatellites()
 	assert.NotNil(t, err)
 }
 
-func TestGetSplittedClassifiedCodeWithCorrectAditions(t *testing.T) {
+func TestGetSplittedStarshipCodeWithCorrectAditions(t *testing.T) {
 
+	testData := getTestData()
 	expectedOutput := "este es un challenge de mercado libre"
 
-	AddSatelliteCode(testSatellites[0])
-	AddSatelliteCode(testSatellites[1])
-	AddSatelliteCode(testSatellites[2])
+	AddSatelliteCode(testData[0])
+	AddSatelliteCode(testData[1])
+	AddSatelliteCode(testData[2])
 
 	solution, err := GetStarshipCodeFromStoredSatellites()
 

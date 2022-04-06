@@ -40,3 +40,14 @@ func TestRemoveNoiseOfMessages(t *testing.T) {
 	messages := removeNoiseOfMessages(message1, message2)
 	assert.Equal(t, len(messages[0]), len(messages[1]))
 }
+
+func TestGetMessageWithContradictions(t *testing.T) {
+
+	message1 := []string{"esta", "es", "una", "contradiccion"}
+	message2 := []string{"dentro", "de", "un", "mensaje"}
+	message3 := []string{"imposible", "de", "determinar"}
+
+	_, err := GetMessage(message1, message2, message3)
+
+	assert.NotNil(t, err)
+}
