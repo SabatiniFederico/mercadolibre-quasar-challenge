@@ -3,10 +3,10 @@ package service
 import (
 	"errors"
 
+	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/data"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
 )
 
-var availableSatellitesNames = [...]string{"kenobi", "skywalker", "sato"}
 var storedSatellites []entity.Satellite
 
 func PostSatelliteCode(newClassifiedMessage entity.Satellite) {
@@ -72,6 +72,7 @@ func hasRepeatedSatelliteNames(satellites []entity.Satellite) bool {
 	return false
 }
 
+//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
 func sortSatellites(satellites []entity.Satellite) (sortedSats []entity.Satellite) {
 
 	dicc := make(map[string]entity.Satellite)
@@ -79,9 +80,8 @@ func sortSatellites(satellites []entity.Satellite) (sortedSats []entity.Satellit
 		dicc[satellite.Name] = satellite
 	}
 
-	//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
-	for _, satName := range availableSatellitesNames {
-		sortedSats = append(sortedSats, dicc[satName])
+	for _, onlineSatellite := range data.GetOnlineSatellites() {
+		sortedSats = append(sortedSats, dicc[onlineSatellite.Name])
 	}
 
 	return sortedSats

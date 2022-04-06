@@ -1,14 +1,15 @@
 package service
 
 import (
+	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/data"
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/lib/trilateration"
 )
 
 func getPositions() (positions []trilateration.Point) {
 
-	positions = append(positions, trilateration.Point{X: -500.0, Y: -200.0})
-	positions = append(positions, trilateration.Point{X: 100.0, Y: -100.0})
-	positions = append(positions, trilateration.Point{X: 500.0, Y: 100.0})
+	for _, sat := range data.GetOnlineSatellites() {
+		positions = append(positions, trilateration.Point{X: sat.Xcoordinate, Y: sat.Ycoordinate})
+	}
 
 	return positions
 }
