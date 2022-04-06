@@ -50,7 +50,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 			"message": "validation error on satellite json",
 		})
 	} else {
-		service.PostSatelliteCode(classifiedMessage)
+		service.AddSatelliteCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
 		ctx.JSON(http.StatusCreated, gin.H{
 			"message": "The satellite has been successfully added",
@@ -60,7 +60,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 
 func GetSplittedTopSecretMessage(ctx *gin.Context) {
 
-	answer, err := service.GetSplittedSatelliteCode()
+	answer, err := service.GetStarshipCodeFromStoredSatellites()
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
 			"message": err.Error(),
