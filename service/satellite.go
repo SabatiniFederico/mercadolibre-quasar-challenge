@@ -9,7 +9,7 @@ import (
 
 var storedSatellites []entity.Satellite
 
-func PostSatelliteCode(newClassifiedMessage entity.Satellite) {
+func AddSatelliteCode(newClassifiedMessage entity.Satellite) {
 	for i, satellite := range storedSatellites {
 		if satellite.Name == newClassifiedMessage.Name {
 			storedSatellites[i] = newClassifiedMessage
@@ -19,7 +19,7 @@ func PostSatelliteCode(newClassifiedMessage entity.Satellite) {
 	storedSatellites = append(storedSatellites, newClassifiedMessage)
 }
 
-func GetSplittedSatelliteCode() (entity.StarshipResponse, error) {
+func GetStarshipCodeFromStoredSatellites() (entity.StarshipResponse, error) {
 	return CalculateStarshipCode(storedSatellites)
 }
 

@@ -73,15 +73,15 @@ func TestCalculatedStarshipWithNoEnoughSatellites(t *testing.T) {
 
 func TestAddSatelliteCodeTwoTimesWithTheSameSatellite(t *testing.T) {
 
-	PostSatelliteCode(testSatellites[0])
-	PostSatelliteCode(testSatellites[0])
+	AddSatelliteCode(testSatellites[0])
+	AddSatelliteCode(testSatellites[0])
 
 	assert.Equal(t, 1, len(storedSatellites))
 }
 
 func TestGetSplittedSatelliteCodeWithNoAdditions(t *testing.T) {
 
-	_, err := GetSplittedSatelliteCode()
+	_, err := GetStarshipCodeFromStoredSatellites()
 	assert.NotNil(t, err)
 }
 
@@ -89,11 +89,11 @@ func TestGetSplittedClassifiedCodeWithCorrectAditions(t *testing.T) {
 
 	expectedOutput := "este es un challenge de mercado libre"
 
-	PostSatelliteCode(testSatellites[0])
-	PostSatelliteCode(testSatellites[1])
-	PostSatelliteCode(testSatellites[2])
+	AddSatelliteCode(testSatellites[0])
+	AddSatelliteCode(testSatellites[1])
+	AddSatelliteCode(testSatellites[2])
 
-	solution, err := GetSplittedSatelliteCode()
+	solution, err := GetStarshipCodeFromStoredSatellites()
 
 	assert.Nil(t, err)
 	assert.Equal(t, expectedOutput, solution.Message)
