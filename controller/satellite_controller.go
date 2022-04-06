@@ -47,7 +47,7 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 
 	if errValidation := validate.Struct(classifiedMessage); errValidation != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": errValidation.Error(),
+			"message": "validation error on satellite json",
 		})
 	} else {
 		service.PostSatelliteCode(classifiedMessage)
