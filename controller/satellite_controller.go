@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/SabatiniFederico/mercadolibre-quasar-challenge/entity"
@@ -15,24 +16,28 @@ var validate = validator.New()
 func PostTopSecretMessage(ctx *gin.Context) {
 	var request entity.SatellitesRequest
 
-	ctx.ShouldBindJSON(&request)
+	errParsingJSON := ctx.ShouldBindJSON(&request)
 	errValidation := validate.Struct(request)
 
-	if errValidation == nil {
+	fmt.Println(errParsingJSON)
+	fmt.Println(errValidation)
+	fmt.Println(request)
+
+	if errParsingJSON == nil && errValidation == nil {
 
 		answer, err := service.CalculateStarshipCode(request.Satellites)
 
-		if err != nil {
+		if err == nil {
+			json.Marshal(answer)
+			ctx.JSON(http.StatusOK, answer)
+		} else {
 			ctx.JSON(http.StatusNotFound, gin.H{
 				"message": err.Error(),
 			})
-		} else {
-			json.Marshal(answer)
-			ctx.JSON(http.StatusOK, answer)
 		}
 	} else {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "validation error on satellites json",
+			"message": "validation error ocurred when parsing satellites json",
 		})
 	}
 
@@ -43,17 +48,20 @@ func PostSplittedTopSecretMessage(ctx *gin.Context) {
 
 	var classifiedMessage entity.Satellite
 	classifiedMessage.Name = name
-	ctx.ShouldBindJSON(&classifiedMessage)
 
-	if errValidation := validate.Struct(classifiedMessage); errValidation != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "validation error on satellite json",
-		})
-	} else {
+	errParsingJSON := ctx.ShouldBindJSON(&classifiedMessage)
+	errValidation := validate.Struct(classifiedMessage)
+
+	if errParsingJSON == nil && errValidation == nil {
 		service.AddSatelliteCode(classifiedMessage)
 		json.Marshal(classifiedMessage)
 		ctx.JSON(http.StatusCreated, gin.H{
 			"message": "The satellite has been successfully added",
+		})
+	} else {
+
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "validation error ocurred when parsing satellites json",
 		})
 	}
 }
