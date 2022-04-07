@@ -72,7 +72,6 @@ func hasRepeatedSatelliteNames(satellites []entity.Satellite) bool {
 	return false
 }
 
-//GetLocation is an strict function, it requires indexes in an specific order kenobi = 0, skywalker = 1 and sato = 2
 func sortSatellites(satellites []entity.Satellite) (sortedSats []entity.Satellite) {
 
 	dicc := make(map[string]entity.Satellite)
