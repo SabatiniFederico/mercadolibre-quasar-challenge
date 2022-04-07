@@ -55,7 +55,7 @@ Cualquier conjunto de puntos pueden ser trasladado para cumplir dichas condicion
 
 1. Trasladar el conjunto para que el primer punto (kenobi) se encuentre en el *(0,0)*.
 2. Rotar el conjunto para que el segundo punto (skywalker) quede ubicado en el eje de las abscisas.
-3. Calculamos *(x,y)* con las fórmulas propuestas por el artículo:
+3. Calculamos *(x,y)* con las fórmulas propuestas por el artículo, donde *(r)* es la distancia a la nave espacial y *(U)* la separación entre puntos:
 
 ![{\displaystyle {\begin{aligned}x&={\frac {r_{1}^{2}-r_{2}^{2}+U^{2}}{2U}}\\[4pt]y&=\pm {\sqrt {r_{1}^{2}-x^{2}}}\end{aligned}}}](https://wikimedia.org/api/rest_v1/media/math/render/svg/ebcc6eb379df69ed08e8e83b5c4488c83481b3e3)
 
