@@ -147,7 +147,7 @@ Ejemplo de una respuesta exitosa:
 Esta sección destaca una lista de posibles mejoras a la hora de continuar iterarando el proyecto productivo.
 
 - La capa de Servicio tiene un coverage total, pero estaría bueno tener tests de integración en la capa del controlador para completar.
-- La capa de Data está pensada para que en un futuro sea remplazada por algún Repositorio que gestione nombres y posiciones. Se podría encarar almacenar dichos datos en algún Serverless Redis o DynamoDB para empezar y posteriormente escalarlo a un sistema en donde se puedan tener más que tan solo 3 satélites en el sistema.
+- La capa de Data podría en un futuro ser remplazada por algún Repositorio que gestione nombres y posiciones. Se podría encarar almacenar dichos datos en algún Serverless Redis o DynamoDB para empezar y posteriormente escalarlo a un sistema en donde se puedan tener más que tan solo 3 satélites en el sistema.
 - Siempre considero un plus agregar documentación con Swagger API, ayuda un montón a los programadores que quieran consumirnos.
 - Se debería considerar crear algún custom Logger para tener mejor control del flujo de la aplicación.
 
