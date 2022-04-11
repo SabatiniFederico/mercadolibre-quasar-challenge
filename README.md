@@ -77,11 +77,11 @@ Luego se revisa que el mensaje sea descifrable es decir que no tenga contradicci
 
 No tienen solución válida, ya que tendrías que elegir si descartar el primer mensaje o el segundo, contradicciones en una palabra se interpretan como basura y descartan el mensaje de ser una respuesta válida. 
 
-### Servicio "Topsecret_split ###
+### Topsecret_split ###
 
-Para el servicio topsecret_split se posee una lista vacía de satélites y se utiliza *validator* para revisar que los nombres sean efectivamente *"kenobi", "skywalker o "sato"* en minúscula
+Para el uso del servicio topsecret_split se posee una lista vacía de satélites y se utiliza *validator* para revisar que los nombres sean efectivamente *"kenobi", "skywalker o "sato"* en minúscula
 
-Si se agrega información de un satélite que ya existía en la lista, este mismo se actualizara con los nuevos datos (distancia y mensaje)
+Si se realiza un **Post** de un satélite que ya existía en la lista, este mismo se actualizará con los nuevos datos (distancia y mensaje)
 
 ## Endpoints
   
@@ -148,6 +148,7 @@ Esta sección destaca una lista de posibles mejoras a la hora de continuar itera
 
 - La capa de Servicio tiene un coverage total, pero estaría bueno tener tests de integración en la capa del controlador para completar.
 - La capa de Data podría en un futuro ser remplazada por algún Repositorio que gestione nombres y posiciones. Se podría encarar almacenar dichos datos en algún Serverless Redis o DynamoDB para empezar y posteriormente escalarlo a un sistema en donde se puedan tener más que tan solo 3 satélites en el sistema.
+- Para el Endpoint *topsecret_split* en vez de tener la lista en memoria, se podría eventualmente tener un caché compartido de la información. Esto nos permitiría eventualmente poder escalar horizontalmente la app, que actualmente ejecuta en **Stand alone**.
 - Siempre considero un plus agregar documentación con Swagger API, ayuda un montón a los programadores que quieran consumirnos.
 - Se debería considerar crear algún custom Logger para tener mejor control del flujo de la aplicación.
 
