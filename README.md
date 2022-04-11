@@ -63,7 +63,7 @@ Cualquier conjunto de puntos pueden ser trasladado para cumplir dichas condicion
 5. En caso de que haya solución rotamos y trasladamos el resultado en sentido inverso.
 
 ### GetMessage ###
-Recibe mensajes incompletos y resuelve el mensaje original
+Recibe mensajes incompletos y devuelve el mensaje original
 
 El defasaje del mensaje se decidió interpretarlo el cómo un *"Ruido"* de strings vacíos que llegan a la izquierda del mensaje. 
 
