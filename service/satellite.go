@@ -28,14 +28,14 @@ func CalculateStarshipCode(satellites []entity.Satellite) (answer entity.Starshi
 	distances, criptedMessages, errRequest := getValuesFromSatellites(satellites)
 
 	if errRequest != nil {
-		return entity.StarshipResponse{}, errRequest
+		return answer, errRequest
 	}
 
 	x, y, errLocation := GetLocation(distances...)
 	message, errMessage := GetMessage(criptedMessages...)
 
 	if errLocation != nil || errMessage != nil {
-		return entity.StarshipResponse{}, errors.New("couldn't calculate position or message with provided info")
+		return answer, errors.New("couldn't calculate position or message with provided info")
 	}
 
 	answer = entity.StarshipResponse{

@@ -17,7 +17,7 @@ func GetMessage(messages ...[]string) (msg string, err error) {
 			word, err = mergeTwoWordsOfCode(word, messages[k][i])
 
 			if err != nil {
-				return "", err
+				return msg, err
 			}
 		}
 		solution = append(solution, word)

@@ -43,7 +43,7 @@ func Solve2DTrilateration(points []Point, distances []float64) (Point, error) {
 		return translateAndRotate(points[0], rotation, result), nil
 	}
 
-	return Point{}, ErrNoSolution
+	return result, ErrNoSolution
 }
 
 func translateAndRotate(translation Point, rotation float64, point Point) Point {
